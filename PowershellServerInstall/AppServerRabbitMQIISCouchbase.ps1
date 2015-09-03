@@ -22,20 +22,25 @@ If (Test-Path $fileErlang){
   Write-Output "Erlang 18.0 already downloaded."
 }Else{
   Write-Output "Erlang 18.0 download started."
-  $webclient.DownloadFile($urlRabbit,$fileRabbit)
+  $webclient.DownloadFile($urlErlang,$fileErlang)
 }
 
 If (Test-Path $fileRabbit){
   Write-Output "RabbitMQ 3.5.4 already downloaded."
 }Else{
   Write-Output "RabbitMQ 3.5.4 download started."
-  $webclient.DownloadFile($urlErlang,$fileErlang)
+  $webclient.DownloadFile($urlRabbit,$fileRabbit)
 }
 
 Start-Process $fileErlang -ArgumentList "/S" -Wait
 Write-Output "Erlang 18.0 installed."
 Start-Process $fileRabbit -ArgumentList "/S" -Wait
 Write-Output "RabbitMQ 3.5.4 installed."
+
+$fileRabbitPlugins = "C:\Program Files (x86)\RabbitMQ Server\rabbitmq_server-3.5.4\sbin\rabbitmq-plugins"
+$process = Start-Process $fileRabbitPlugins -ArgumentList "enable rabbitmq_management" -Wait
+Write-Output "RabbitMQ Management tool installed."
+
 
 #if ($setup.exitcode -eq 0)
 #write-host "Successfully installed" 
